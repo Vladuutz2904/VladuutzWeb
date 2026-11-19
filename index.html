@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>VladuutzWeb — Portofoliu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#04070c">
+<meta name="description" content="VladuutzWeb — Web Development & Solutions. Site-uri, aplicatii web, panouri de administrare si sisteme de licentiere.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: hero cu logo plutitor pe dreapta -> servicii -> proiecte -> proces -> contact. Un singur look intunecat, culorile din logo. */
+  :root {
+    color-scheme: dark;
+    --bg: #04070c;
+    --bg2: #070b12;
+    --card: rgba(16, 22, 34, 0.7);
+    --border: rgba(120, 160, 210, 0.14);
+    --border-strong: rgba(120, 170, 230, 0.3);
+    --fg: #eaf2fb;
+    --muted: #8a98ad;
+    --cyan: #22e0f5;
+    --blue: #1f8fe6;
+    --orange: #ff8a1f;
+    --ok: #2ee6b0;
+    --brand: linear-gradient(135deg, #22e0f5 0%, #1f8fe6 100%);
+    --brand-soft: linear-gradient(135deg, rgba(34,224,245,.16), rgba(31,143,230,.08));
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-d: 'Montserrat', 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --ease: cubic-bezier(.45, 0, .55, 1);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: rgba(34,224,245,.3); }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea, select { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 8px; }
+  .i { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  section { position: relative; padding-block: 96px; overflow-x: clip; }
+  html { overflow-x: clip; }
+  .grad { background: linear-gradient(90deg, #22e0f5, #1f8fe6 60%, #4aa8ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grad-o { background: linear-gradient(90deg, #ffb836, #ff8a1f); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ---------- fundal ---------- */
+  .bg-fixed { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-fixed .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(80,140,220,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(80,140,220,.055) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 10%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 10%, transparent 75%); }
+  .bg-fixed i { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
+  .bg-fixed .a1 { width: 560px; height: 560px; background: #1f8fe6; opacity: .38; top: -200px; left: -160px; animation: d1 22s var(--ease) infinite alternate; }
+  .bg-fixed .a2 { width: 480px; height: 480px; background: #22e0f5; opacity: .2; top: 30%; right: -200px; animation: d2 26s var(--ease) infinite alternate; }
+  .bg-fixed .a3 { width: 420px; height: 420px; background: #ff8a1f; opacity: .13; bottom: -160px; left: 10%; animation: d3 30s var(--ease) infinite alternate; }
+  @keyframes d1 { to { transform: translate(140px, 120px) scale(1.12); } }
+  @keyframes d2 { to { transform: translate(-120px, -80px) scale(1.15); } }
+  @keyframes d3 { to { transform: translate(200px, -60px) scale(.9); } }
+  main, header, footer { position: relative; z-index: 1; }
+  #progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--brand); transform: scaleX(0); transform-origin: left; z-index: 200; }
+
+  /* ---------- nav ---------- */
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 99; background: var(--bg); }
+  .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 100; background: rgba(4,7,12,.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .logo-link { display: flex; align-items: center; gap: 11px; }
+  .logo-link img { width: 46px; filter: drop-shadow(0 4px 12px rgba(34,224,245,.35)); }
+  .logo-link b { font-family: var(--font-d); font-weight: 800; font-size: 17px; line-height: 1; }
+  .logo-link small { display: block; font-size: 9px; letter-spacing: .16em; color: var(--muted); margin-top: 4px; font-weight: 600; }
+  .nav-links { display: flex; gap: 6px; align-items: center; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); padding: 8px 14px; border-radius: 10px; transition: color .2s, background .2s; }
+  .nav-links a:hover, .nav-links a.on { color: var(--fg); background: rgba(255,255,255,.05); }
+  .burger { display: none; background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--fg); width: 42px; height: 42px; border-radius: 12px; align-items: center; justify-content: center; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 0; border-radius: 14px; padding: 14px 24px; font-weight: 700; font-size: 15px; cursor: pointer; position: relative; overflow: hidden; transition: transform .2s, box-shadow .25s, border-color .2s, background .2s; }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: var(--brand); color: #04101a; box-shadow: 0 12px 34px rgba(31,143,230,.4); }
+  .btn-primary::after { content: ''; position: absolute; top: 0; left: -120%; width: 55%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent); transform: skewX(-20deg); transition: left .7s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 42px rgba(34,224,245,.45); }
+  .btn-primary:hover::after { left: 140%; }
+  .btn-ghost { background: rgba(255,255,255,.04); border: 1px solid var(--border-strong); color: var(--fg); }
+  .btn-ghost:hover { background: rgba(255,255,255,.09); transform: translateY(-2px); }
+  .btn-sm { padding: 10px 18px; font-size: 13.5px; border-radius: 12px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: 72px; padding-bottom: 80px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+  .tag { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--cyan); background: rgba(34,224,245,.08); border: 1px solid rgba(34,224,245,.22); padding: 7px 14px; border-radius: 99px; }
+  .tag::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); animation: blink 2.2s infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+  h1 { font-family: var(--font-d); font-weight: 800; font-size: clamp(38px, 6vw, 70px); line-height: 1.05; letter-spacing: -.03em; margin: 22px 0 22px; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: clamp(16px, 1.6vw, 18.5px); max-width: 540px; margin: 0 0 32px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-meta { display: flex; gap: 26px; margin-top: 44px; flex-wrap: wrap; }
+  .hero-meta div { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--muted); }
+  .hero-meta .i { color: var(--cyan); width: 18px; height: 18px; }
+
+  .hero-art { position: relative; display: flex; justify-content: center; align-items: center; min-height: 440px; }
+  .art-float { position: relative; width: min(430px, 86%); will-change: transform; }
+  .art-bob { animation: bob 7s var(--ease) infinite; }
+  @keyframes bob { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-14px,0); } }
+  .art-float img { position: relative; z-index: 2; width: 100%; filter: drop-shadow(0 12px 34px rgba(34,224,245,.35)); }
+  .art-halo { position: absolute; z-index: 1; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, rgba(34,224,245,.24), rgba(31,143,230,.1) 42%, transparent 68%); animation: halo 7s var(--ease) infinite; }
+  @keyframes halo { 0%,100% { opacity: .7; transform: translate(-50%,-50%) scale(.95); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.07); } }
+  .orbit { position: absolute; z-index: 3; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; }
+  .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(120,190,255,.16); animation: spin 28s linear infinite; }
+  .ring.r2 { inset: 13%; animation-duration: 40s; animation-direction: reverse; }
+  .ring .dot { position: absolute; top: -4px; left: 50%; margin-left: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px 3px rgba(34,224,245,.8); }
+  .ring.r2 .dot { background: var(--orange); box-shadow: 0 0 14px 3px rgba(255,138,31,.8); top: auto; bottom: -4px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .chip-f { position: absolute; z-index: 4; display: flex; align-items: center; gap: 9px; padding: 10px 15px; border-radius: 14px; font-size: 13px; font-weight: 600; background: rgba(14,20,32,.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border-strong); box-shadow: 0 14px 40px rgba(0,0,0,.45); animation: bob 8s var(--ease) infinite; }
+  .chip-f .i { width: 17px; height: 17px; color: var(--cyan); }
+  .chip-f.c1 { left: 0; top: 14%; animation-delay: -1s; }
+  .chip-f.c2 { right: -3%; top: 17%; animation-delay: -3.5s; }
+  .chip-f.c2 .i { color: var(--orange); }
+  .chip-f.c3 { left: 2%; bottom: 6%; animation-delay: -5.5s; }
+  .chip-f.c3 .i { color: var(--ok); }
+
+  /* ---------- tech marquee ---------- */
+  .marquee { padding-block: 22px; border-block: 1px solid var(--border); background: rgba(7,11,18,.6); overflow: hidden; }
+  .marquee-track { display: flex; gap: 14px; width: max-content; animation: scroll 40s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee span { display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px; border-radius: 99px; border: 1px solid var(--border); background: rgba(255,255,255,.03); font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .marquee span::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+  .marquee span:nth-child(3n)::before { background: var(--orange); }
+  .marquee span:nth-child(3n+1)::before { background: var(--blue); }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* ---------- titluri sectiuni ---------- */
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--cyan); margin-bottom: 14px; }
+  h2 { font-family: var(--font-d); font-weight: 800; font-size: clamp(30px, 4.2vw, 46px); line-height: 1.1; letter-spacing: -.025em; margin: 0 0 16px; text-wrap: balance; }
+  .sec-head { max-width: 640px; margin-bottom: 52px; }
+  .sec-head p { color: var(--muted); margin: 0; font-size: 17px; }
+
+  /* ---------- servicii ---------- */
+  .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .spot { position: relative; overflow: hidden; background: var(--card); border: 1px solid var(--border); border-radius: 22px; transition: transform .3s var(--ease), border-color .3s; }
+  .spot::before { content: ''; position: absolute; inset: 0; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(34,224,245,.12), transparent 45%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .spot:hover { border-color: var(--border-strong); }
+  .spot:hover::before { opacity: 1; }
+  .service { padding: 28px; }
+  .service:hover { transform: translateY(-4px); }
+  .s-ic { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--cyan); background: var(--brand-soft); border: 1px solid rgba(34,224,245,.22); margin-bottom: 22px; transition: transform .3s; }
+  .service:hover .s-ic { transform: scale(1.08) rotate(-4deg); }
+  .service.o .s-ic { color: var(--orange); background: rgba(255,138,31,.1); border-color: rgba(255,138,31,.25); }
+  .service h3 { font-family: var(--font-d); font-size: 18px; margin: 0 0 9px; }
+  .service p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- proiecte ---------- */
+  .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .project { display: flex; flex-direction: column; transform-style: preserve-3d; transition: transform .25s ease-out, border-color .3s; will-change: transform; }
+  .mock { position: relative; height: 240px; margin: 14px 14px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(160deg, #0d1626, #080d17); border: 1px solid var(--border); }
+  .mock::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(8,13,23,.85)); pointer-events: none; }
+  .mock-bar { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,.02); }
+  .mock-bar i { width: 9px; height: 9px; border-radius: 50%; background: #2a3548; }
+  .mock-bar i:nth-child(1) { background: #ff5d6c; } .mock-bar i:nth-child(2) { background: #ffb836; } .mock-bar i:nth-child(3) { background: #2ee6b0; }
+  .mock-body { padding: 14px; display: grid; gap: 10px; }
+  .m-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .m-stat { background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 10px; padding: 9px; }
+  .m-stat b { display: block; font-family: var(--font-d); font-size: 15px; }
+  .m-stat small { font-size: 9.5px; color: var(--muted); }
+  .m-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font-size: 10.5px; }
+  .m-pill { padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 700; }
+  .m-pill.g { background: rgba(46,230,176,.14); color: var(--ok); } .m-pill.o { background: rgba(255,138,31,.15); color: var(--orange); }
+  .m-code { padding: 16px; font-size: 11.5px; line-height: 1.85; color: #9db0c8; }
+  .m-code .k { color: #22e0f5; } .m-code .s { color: #ffb836; } .m-code .c { color: #55667d; } .m-code .f { color: #4aa8ff; }
+  .m-shop { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; padding: 12px; }
+  .m-prod { aspect-ratio: 1 / 1.15; border-radius: 10px; background: linear-gradient(135deg, rgba(34,224,245,.18), rgba(31,143,230,.08)); border: 1px solid var(--border); position: relative; }
+  .m-prod:nth-child(2) { background: linear-gradient(135deg, rgba(255,138,31,.2), rgba(255,184,54,.06)); }
+  .m-prod:nth-child(5) { background: linear-gradient(135deg, rgba(46,230,176,.18), rgba(34,224,245,.06)); }
+  .m-prod::after { content: ''; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 6px; border-radius: 4px; background: rgba(255,255,255,.14); box-shadow: 0 -12px 0 -1px rgba(255,255,255,.07); }
+  .m-hero { padding: 22px 18px; display: grid; gap: 10px; }
+  .m-hero .l1 { height: 14px; width: 70%; border-radius: 6px; background: var(--brand); }
+  .m-hero .l2 { height: 14px; width: 46%; border-radius: 6px; background: var(--brand); opacity: .6; }
+  .m-hero .l3 { height: 7px; width: 82%; border-radius: 4px; background: rgba(255,255,255,.12); }
+  .m-hero .l4 { height: 7px; width: 64%; border-radius: 4px; background: rgba(255,255,255,.08); }
+  .m-hero .b { margin-top: 6px; height: 26px; width: 100px; border-radius: 9px; background: var(--orange); opacity: .9; }
+  .p-body { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .p-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .p-top h3 { font-family: var(--font-d); font-size: 20px; margin: 0; }
+  .badge { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+  .badge.live { background: rgba(46,230,176,.12); color: var(--ok); }
+  .badge.concept { background: rgba(255,138,31,.12); color: var(--orange); }
+  .p-body p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 8px; }
+  .tags span { font-size: 11.5px; font-weight: 600; color: #a9bbd1; background: rgba(255,255,255,.05); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+
+  /* ---------- proces ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
+  .step { padding: 26px 24px; }
+  .step .n { font-family: var(--font-d); font-weight: 800; font-size: 13px; color: var(--cyan); width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--brand-soft); border: 1px solid rgba(34,224,245,.25); margin-bottom: 18px; }
+  .step h3 { font-family: var(--font-d); font-size: 17px; margin: 0 0 8px; }
+  .step p { margin: 0; font-size: 14px; color: var(--muted); }
+
+  /* ---------- contact ---------- */
+  .contact-card { position: relative; overflow: hidden; border-radius: 30px; padding: clamp(28px, 5vw, 56px); display: grid; grid-template-columns: 1fr 1.05fr; gap: 44px; background: radial-gradient(ellipse 60% 100% at 0% 0%, rgba(34,224,245,.16), transparent 65%), radial-gradient(ellipse 50% 80% at 100% 100%, rgba(255,138,31,.1), transparent 65%), linear-gradient(135deg, #0f1b2e, #0a111d); border: 1px solid var(--border-strong); }
+  .contact-card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; background: conic-gradient(from var(--ang, 0deg), transparent, rgba(34,224,245,.7), transparent 30%, rgba(255,138,31,.6) 55%, transparent 70%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: rot 8s linear infinite; }
+  @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes rot { to { --ang: 360deg; } }
+  .contact-card > * { position: relative; min-width: 0; }
+  .contact-info p { color: var(--muted); margin: 0 0 26px; }
+  .c-line { display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--border); margin-bottom: 10px; }
+  .c-line .i { color: var(--cyan); }
+  .c-line span { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 14.5px; font-weight: 500; }
+  .c-line button { background: rgba(255,255,255,.07); border: 1px solid var(--border); color: var(--fg); border-radius: 9px; padding: 6px 11px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .c-line button:hover { background: rgba(255,255,255,.14); }
+  form { display: grid; gap: 14px; }
+  .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { display: grid; gap: 7px; font-size: 12.5px; font-weight: 500; color: var(--muted); min-width: 0; }
+  input, textarea, select { width: 100%; background: rgba(4,8,14,.7); border: 1px solid var(--border); color: var(--fg); padding: 13px 15px; border-radius: 13px; font-size: 14.5px; transition: border-color .2s, box-shadow .2s; }
+  select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a98ad' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+  select option { background: #0e1420; }
+  textarea { resize: vertical; min-height: 110px; }
+  input::placeholder, textarea::placeholder { color: #4d5b6f; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34,224,245,.12); }
+  .f-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .f-note { font-size: 12px; color: #5f6e84; margin: 0; }
+
+  footer { border-top: 1px solid var(--border); padding-block: 36px calc(36px + 0px); background: rgba(4,7,12,.7); }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; color: var(--muted); font-size: 13.5px; }
+  footer .logo-link img { width: 38px; }
+
+  /* ---------- toast ---------- */
+  #toasts { position: fixed; top: calc(84px + env(safe-area-inset-top, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); z-index: 300; display: grid; gap: 10px; width: 330px; max-width: calc(100vw - 32px); pointer-events: none; }
+  .toast { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 14px; font-size: 13.5px; background: rgba(14,20,32,.96); border: 1px solid var(--border-strong); border-left: 3px solid var(--ok); box-shadow: 0 16px 44px rgba(0,0,0,.55); animation: tin .4s cubic-bezier(.2,.9,.25,1.1) both; pointer-events: auto; }
+  .toast .i { color: var(--ok); width: 18px; height: 18px; }
+  .toast.out { animation: tout .3s forwards; }
+  @keyframes tin { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: none; } }
+  @keyframes tout { to { opacity: 0; transform: translateX(50px); } }
+
+  /* ---------- reveal ---------- */
+  .rv { opacity: .25; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .hero-art { order: -1; min-height: 340px; }
+    .art-float { width: min(280px, 68%); }
+    .services { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .contact-card { grid-template-columns: 1fr; gap: 30px; }
+  }
+  @media (max-width: 760px) {
+    section { padding-block: 70px; }
+    .burger { display: inline-flex; }
+    .nav-links { position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; align-items: stretch; padding: 12px max(16px, env(safe-area-inset-left, 0px)) 18px; background: rgba(6,10,17,.97); border-bottom: 1px solid var(--border); display: none; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 13px 14px; }
+    .nav .btn { display: none; }
+    .projects { grid-template-columns: 1fr; }
+    .chip-f.c1 { left: -2%; } .chip-f.c2 { right: -3%; } .chip-f.c3 { left: 2%; }
+    .chip-f { padding: 8px 12px; font-size: 12px; }
+  }
+  @media (max-width: 560px) {
+    .services, .steps, .f-row { grid-template-columns: 1fr; }
+    .m-stats { grid-template-columns: repeat(2, 1fr); }
+    .mock { height: 220px; }
+    .hero-meta { gap: 14px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6M14 4l-4 16"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 7H6"/></symbol>
+    <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M16 7l3 3M13.5 9.5l2 2"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2M12 15l-3-3a22 22 0 0 1 2-4 12.9 12.9 0 0 1 11-6c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2ZM9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a14.5 14.5 0 0 1 20 0M12 20h.01"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.7 7L3 21l2-5.5A8 8 0 1 1 21 12Z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.6a2 2 0 0 1 0 2.8l-5.6 5.6a2 2 0 0 1-2.8 0L3 11.4a2 2 0 0 1 0-2.8L8.6 3a2 2 0 0 1 2.8 0Z"/></symbol>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+<div class="bg-fixed"><div class="grid"></div><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<div id="toasts" aria-live="polite"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#acasa" class="logo-link" aria-label="VladuutzWeb"><img src="assets/logo-icon.png" alt=""><div><b>Vladuutz<span class="grad">Web</span></b><small>WEB DEVELOPMENT &amp; SOLUTIONS</small></div></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#servicii">Servicii</a>
+      <a href="#proiecte">Proiecte</a>
+      <a href="#proces">Proces</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn btn-primary btn-sm">Hai sa vorbim</a>
+    <button class="burger" id="burger" aria-label="Meniu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="acasa">
+    <div class="wrap">
+      <div>
+        <span class="tag rv">DISPONIBIL PENTRU PROIECTE NOI</span>
+        <h1 class="rv" style="--d:.08s">Site-uri si aplicatii web care <span class="grad">cresc afacerea ta</span></h1>
+        <p class="lead rv" style="--d:.16s">Construiesc site-uri de prezentare, magazine online, panouri de administrare si sisteme de licentiere. Rapid, curat si gandit sa arate bine pe orice ecran.</p>
+        <div class="cta-row rv" style="--d:.24s">
+          <a href="#contact" class="btn btn-primary">Cere o oferta <svg class="i" style="width:18px;height:18px"><use href="#i-arrow"/></svg></a>
+          <a href="#proiecte" class="btn btn-ghost">Vezi proiectele</a>
+        </div>
+        <div class="hero-meta rv" style="--d:.32s">
+          <div><svg class="i"><use href="#i-bolt"/></svg> Livrare rapida</div>
+          <div><svg class="i"><use href="#i-phone"/></svg> Responsive pe mobil</div>
+          <div><svg class="i"><use href="#i-shield"/></svg> Suport dupa lansare</div>
+        </div>
+      </div>
+
+      <div class="hero-art" id="heroArt">
+        <div class="art-float" id="artFloat">
+          <div class="art-halo"></div>
+          <div class="orbit"><div class="ring"><span class="dot"></span></div><div class="ring r2"><span class="dot"></span></div></div>
+          <div class="art-bob"><img src="assets/logo-full.png" alt="VladuutzWeb — Web Development &amp; Solutions" width="854" height="564"></div>
+        </div>
+        <div class="chip-f c1"><svg class="i"><use href="#i-code"/></svg> Cod curat</div>
+        <div class="chip-f c2"><svg class="i"><use href="#i-rocket"/></svg> Performanta</div>
+        <div class="chip-f c3"><svg class="i"><use href="#i-wifi"/></svg> Mereu online</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-label="Tehnologii">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+
+  <!-- SERVICII -->
+  <section id="servicii">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow rv">SERVICII</div>
+        <h2 class="rv">Tot ce ai nevoie ca sa fii <span class="grad">online</span></h2>
+        <p class="rv">De la prima pagina pana la sistemul din spatele ei. Alegi ce ai nevoie, restul ramane in grija mea.</p>
+      </div>
+      <div class="services">
+        <article class="spot service rv"><div class="s-ic"><svg class="i"><use href="#i-phone"/></svg></div><h3>Site-uri de prezentare</h3><p>Pagini rapide, moderne si optimizate pentru telefon, cu designul adaptat brandului tau.</p></article>
+        <article class="spot service o rv" style="--d:.07s"><div class="s-ic"><svg class="i"><use href="#i-cart"/></svg></div><h3>Magazine online</h3><p>Catalog de produse, cos de cumparaturi si plati, facute sa transforme vizitatorii in clienti.</p></article>
+        <article class="spot service rv" style="--d:.14s"><div class="s-ic"><svg class="i"><use href="#i-dash"/></svg></div><h3>Panouri de administrare</h3><p>Dashboard-uri clare pentru gestionat utilizatori, comenzi sau continut, fara bataie de cap.</p></article>
+        <article class="spot service o rv"><div class="s-ic"><svg class="i"><use href="#i-key"/></svg></div><h3>Sisteme de licentiere</h3><p>Chei de licenta, activare pe domeniu, expirare si blocare de la distanta, direct din panou.</p></article>
+        <article class="spot service rv" style="--d:.07s"><div class="s-ic"><svg class="i"><use href="#i-search"/></svg></div><h3>SEO si viteza</h3><p>Structura corecta, incarcare rapida si bune practici ca sa fii gasit mai usor in Google.</p></article>
+        <article class="spot service o rv" style="--d:.14s"><div class="s-ic"><svg class="i"><use href="#i-tool"/></svg></div><h3>Mentenanta si suport</h3><p>Actualizari, remedieri si modificari rapide dupa lansare, ca totul sa mearga fara intreruperi.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROIECTE -->
+  <section id="proiecte">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow rv">PROIECTE</div>
+        <h2 class="rv">Cateva lucruri la care <span class="grad-o">am lucrat</span></h2>
+        <p class="rv">Primele doua sunt proiecte reale. Celelalte sunt concepte care arata directia in care pot construi pentru tine.</p>
+      </div>
+      <div class="projects" id="projects"></div>
+    </div>
+  </section>
+
+  <!-- PROCES -->
+  <section id="proces">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow rv">CUM LUCREZ</div>
+        <h2 class="rv">De la idee la <span class="grad">lansare</span>, in patru pasi</h2>
+      </div>
+      <div class="steps">
+        <div class="spot step rv"><div class="n">01</div><h3>Discutam ideea</h3><p>Imi spui ce ai nevoie, cui te adresezi si ce vrei sa obtii. Stabilim impreuna scopul si termenul.</p></div>
+        <div class="spot step rv" style="--d:.08s"><div class="n">02</div><h3>Design si plan</h3><p>Primesti structura paginilor si directia vizuala, inainte sa scriu prima linie de cod.</p></div>
+        <div class="spot step rv" style="--d:.16s"><div class="n">03</div><h3>Dezvoltare</h3><p>Construiesc totul pas cu pas si iti arat progresul, ca sa poti cere ajustari din timp.</p></div>
+        <div class="spot step rv" style="--d:.24s"><div class="n">04</div><h3>Lansare si suport</h3><p>Punem site-ul online, testez pe telefon si desktop si raman aproape pentru modificari.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding-top:40px">
+    <div class="wrap">
+      <div class="contact-card rv">
+        <div class="contact-info">
+          <div class="eyebrow">CONTACT</div>
+          <h2>Ai un proiect in minte? <span class="grad">Hai sa-l facem.</span></h2>
+          <p>Completeaza cateva detalii si primesti un mesaj gata de trimis. Raspund cat de repede pot cu o idee si un pret.</p>
+          <div class="c-line"><svg class="i"><use href="#i-mail"/></svg><span id="cEmail"></span><button type="button" data-copy="email">Copiaza</button></div>
+          <div class="c-line"><svg class="i"><use href="#i-msg"/></svg><span id="cChat"></span><button type="button" data-copy="chat">Copiaza</button></div>
+        </div>
+        <form id="contactForm">
+          <div class="f-row">
+            <label for="fName">Numele tau<input id="fName" type="text" placeholder="Nume" autocomplete="name"></label>
+            <label for="fType">Tip proiect
+              <select id="fType">
+                <option>Site de prezentare</option>
+                <option>Magazin online</option>
+                <option>Panou de administrare</option>
+                <option>Sistem de licentiere</option>
+                <option>Altceva</option>
+              </select>
+            </label>
+          </div>
+          <label for="fMsg">Spune-mi pe scurt ce ai nevoie<textarea id="fMsg" placeholder="Ex: Am un atelier si vreau un site cu galerie si formular de contact."></textarea></label>
+          <div class="f-actions">
+            <button class="btn btn-primary" type="submit"><svg class="i" style="width:17px;height:17px"><use href="#i-copy"/></svg> Copiaza mesajul</button>
+            <a class="btn btn-ghost" id="mailLink" href="#">Deschide in email</a>
+          </div>
+          <p class="f-note">Mesajul se pregateste in pagina si il trimiti tu, prin email sau pe chat. Nu se salveaza nimic.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#acasa" class="logo-link"><img src="assets/logo-icon.png" alt=""><div><b>Vladuutz<span class="grad">Web</span></b></div></a>
+    <span>© <span id="yr"></span> VladuutzWeb · Web Development &amp; Solutions</span>
+  </div>
+</footer>
+
+<script>
+/* ====== CONFIG — schimba aici datele tale ====== */
+const CONFIG = {
+  email: 'contact@exemplu.ro',
+  chat: 'Discord: vladuutz',
+};
+const TECH = ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'Redis', 'Vercel', 'REST API', 'Responsive design', 'SEO', 'Git'];
+const PROJECTS = [
+  { t: 'VladuutzPanel — License Manager', live: true, d: 'Panou de administrare pentru licente: chei temporare sau permanente, legare pe domeniu, activare si dezactivare in timp real, plus istoric al ultimei verificari.', tags: ['Node.js', 'Vercel', 'Redis', 'API'], mock: 'panel' },
+  { t: 'Licentiere pentru panouri PHP', live: true, d: 'Modul PHP care se adauga intr-o singura linie intr-un panou existent. Verifica periodic serverul si blocheaza accesul cand licenta nu mai e valida.', tags: ['PHP', 'REST API', 'Securitate'], mock: 'code' },
+  { t: 'Magazin online', live: false, d: 'Concept de magazin cu grila de produse, filtre, cos de cumparaturi si pagina de comanda curata, gandit pentru telefon.', tags: ['E-commerce', 'UX', 'Responsive'], mock: 'shop' },
+  { t: 'Site de prezentare', live: false, d: 'Concept de site pentru o firma mica: pagina principala convingatoare, servicii, galerie si formular de contact, cu incarcare rapida.', tags: ['Landing page', 'SEO', 'Design'], mock: 'site' },
+];
+const MOCKS = {
+  panel: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-body"><div class="m-stats"><div class="m-stat"><b>24</b><small>Totale</small></div><div class="m-stat"><b style="color:var(--ok)">19</b><small>Active</small></div><div class="m-stat"><b style="color:var(--orange)">3</b><small>Expirate</small></div><div class="m-stat"><b style="color:#ff5d6c">2</b><small>Oprite</small></div></div><div class="m-row"><span class="mono">CFTE-X7K2-9PQR</span><span class="m-pill g">Activa</span></div><div class="m-row"><span class="mono">CFTE-AAAA-BBBB</span><span class="m-pill g">Permanenta</span></div><div class="m-row"><span class="mono">CFTE-9999-8888</span><span class="m-pill o">Expirata</span></div></div>`,
+  code: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-code mono"><span class="c">// index.php</span><br><span class="k">require_once</span> <span class="s">__DIR__ . '/license_check.php'</span>;<br><br><span class="c">// verifica licenta la ~45s</span><br><span class="f">$status</span> = <span class="f">check_license</span>(<span class="s">$key</span>, <span class="s">$domain</span>);<br><span class="k">if</span> (<span class="f">$status</span> !== <span class="s">'valid'</span>) { <span class="f">block_panel</span>(); }</div>`,
+  shop: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-shop"><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div></div>`,
+  site: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-hero"><div class="l1"></div><div class="l2"></div><div class="l3"></div><div class="l4"></div><div class="b"></div></div>`,
+};
+const $ = (s, r = document) => r.querySelector(s);
+$('#yr').textContent = new Date().getFullYear();
+
+/* marquee */
+$('#marquee').innerHTML = [...TECH, ...TECH].map((t) => `<span>${t}</span>`).join('');
+
+/* proiecte */
+$('#projects').innerHTML = PROJECTS.map((p, i) => `
+  <article class="spot project rv" style="--d:${(i % 2) * 0.1}s">
+    <div class="mock">${MOCKS[p.mock]}</div>
+    <div class="p-body">
+      <div class="p-top"><h3>${p.t}</h3><span class="badge ${p.live ? 'live' : 'concept'}">${p.live ? 'PROIECT REAL' : 'CONCEPT'}</span></div>
+      <p>${p.d}</p>
+      <div class="tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
+    </div>
+  </article>`).join('');
+
+/* contact */
+$('#cEmail').textContent = CONFIG.email;
+$('#cChat').textContent = CONFIG.chat;
+
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = '<svg class="i"><use href="#i-check"/></svg><span></span>';
+  el.querySelector('span').textContent = msg;
+  $('#toasts').appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 3200);
+}
+function copy(text, ok) {
+  const fallback = () => {
+    const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); toast(ok); } catch (e) { toast('Selecteaza textul si copiaza-l manual.'); }
+    t.remove();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => toast(ok), fallback);
+  else fallback();
+}
+document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy === 'email' ? CONFIG.email : CONFIG.chat, 'Copiat in clipboard.')));
+
+function buildMsg() {
+  const name = $('#fName').value.trim() || '[numele tau]';
+  const type = $('#fType').value;
+  const msg = $('#fMsg').value.trim() || '[descrie pe scurt ce ai nevoie]';
+  return `Salut, sunt ${name}. Ma intereseaza: ${type}.\n\n${msg}\n\nImi poti spune o idee de pret si un termen?`;
+}
+function syncMail() {
+  $('#mailLink').href = 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent('Proiect nou: ' + $('#fType').value) + '&body=' + encodeURIComponent(buildMsg());
+}
+['fName', 'fType', 'fMsg'].forEach((id) => $('#' + id).addEventListener('input', syncMail));
+syncMail();
+$('#contactForm').addEventListener('submit', (e) => { e.preventDefault(); copy(buildMsg(), 'Mesaj copiat. Il poti trimite acum.'); });
+
+/* meniu mobil */
+const links = $('#navLinks'), burger = $('#burger');
+burger.addEventListener('click', () => { const o = links.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { links.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }));
+
+/* progres scroll + link activ */
+const bar = $('#progress');
+const secs = ['servicii', 'proiecte', 'proces', 'contact'].map((id) => document.getElementById(id));
+function onScroll() {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${h > 0 ? Math.min(1, scrollY / h) : 0})`;
+  let cur = '';
+  secs.forEach((s) => { if (s.getBoundingClientRect().top < innerHeight * 0.4) cur = s.id; });
+  links.querySelectorAll('a').forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+}
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+/* reveal */
+const io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 }) : null;
+document.querySelectorAll('.rv').forEach((el) => io ? io.observe(el) : el.classList.add('in'));
+
+/* spotlight pe carduri + tilt pe proiecte */
+document.querySelectorAll('.spot').forEach((c) => {
+  c.addEventListener('pointermove', (e) => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    if (c.classList.contains('project') && e.pointerType === 'mouse') {
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      c.style.transform = `perspective(900px) rotateY(${(x * 5).toFixed(2)}deg) rotateX(${(-y * 5).toFixed(2)}deg) translateY(-4px)`;
+    }
+  });
+  c.addEventListener('pointerleave', () => { if (c.classList.contains('project')) c.style.transform = ''; });
+});
+
+/* logo hero: parallax lin, cu interpolare */
+(function () {
+  const el = $('#artFloat');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let tx = 0, ty = 0, cx = 0, cy = 0;
+  addEventListener('mousemove', (e) => { tx = (e.clientX / innerWidth - 0.5) * 2; ty = (e.clientY / innerHeight - 0.5) * 2; });
+  (function loop() {
+    cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
+    el.style.transform = `translate3d(${(cx * 14).toFixed(2)}px, ${(cy * 8).toFixed(2)}px, 0) rotateY(${(cx * 6).toFixed(2)}deg) rotateX(${(-cy * 4).toFixed(2)}deg)`;
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
