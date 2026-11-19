@@ -196,6 +196,32 @@
   .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 8px; }
   .tags span { font-size: 11.5px; font-weight: 600; color: #a9bbd1; background: rgba(255,255,255,.05); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
 
+
+  /* ---------- proiecte cu captura ---------- */
+  .mock.shot { display: block; height: 240px; }
+  .mock.shot img { width: 100%; height: calc(100% - 29px); object-fit: cover; object-position: top center; transition: transform .8s cubic-bezier(.22,.8,.2,1); }
+  .project:hover .mock.shot img { transform: scale(1.04); }
+  .mock.shot .mock-bar { align-items: center; }
+  .mock.shot .url { margin-left: 8px; font-size: 10.5px; color: var(--muted); }
+  .p-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 700; color: var(--cyan); margin-top: 2px; }
+  .p-link .i { width: 15px; height: 15px; transition: transform .25s; }
+  .p-link:hover .i { transform: translateX(4px); }
+
+  /* ---------- logo-uri ---------- */
+  .logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .logo-card { padding: 0; font: inherit; color: inherit; text-align: left; cursor: zoom-in; display: flex; flex-direction: column; width: 100%; }
+  .logo-card:hover { transform: translateY(-4px); }
+  .logo-card .lc-img { height: 230px; width: 100%; display: flex; align-items: center; justify-content: center; padding: 18px; background: radial-gradient(circle at 50% 40%, rgba(31,143,230,.14), transparent 70%), rgba(255,255,255,.015); }
+  .logo-card img { max-width: 100%; max-height: 100%; width: auto; height: auto; min-height: 0; object-fit: contain; filter: drop-shadow(0 8px 18px rgba(0,0,0,.45)); transition: transform .4s cubic-bezier(.22,.8,.2,1); }
+  .logo-card:hover img { transform: scale(1.07); }
+  .logo-card .lc-name { margin-top: auto; padding: 13px 18px 15px; border-top: 1px solid var(--border); font-family: var(--font-d); font-weight: 700; font-size: 14.5px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .logo-card .lc-name small { font-family: var(--font); font-weight: 500; font-size: 11.5px; color: var(--muted); }
+  .lightbox { border: 1px solid var(--border-strong); border-radius: 22px; padding: 0; background: #0a111d; color: var(--fg); max-width: min(92vw, 820px); width: 100%; overflow: hidden; }
+  .lightbox::backdrop { background: rgba(2,4,8,.82); backdrop-filter: blur(6px); }
+  .lightbox .lb-body { padding: 36px 28px 24px; display: flex; justify-content: center; background: radial-gradient(circle at 50% 40%, rgba(31,143,230,.18), transparent 70%); }
+  .lightbox img { max-width: 100%; max-height: 68vh; width: auto; height: auto; object-fit: contain; }
+  .lightbox .lb-bar { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-top: 1px solid var(--border); font-family: var(--font-d); font-weight: 700; }
+
   /* ---------- proces ---------- */
   .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
   .step { padding: 26px 24px; }
@@ -249,6 +275,7 @@
     .hero-art { order: -1; min-height: 340px; }
     .art-float { width: min(280px, 68%); }
     .services { grid-template-columns: repeat(2, 1fr); }
+    .logos { grid-template-columns: repeat(3, 1fr); }
     .steps { grid-template-columns: repeat(2, 1fr); }
     .contact-card { grid-template-columns: 1fr; gap: 30px; }
   }
@@ -260,6 +287,9 @@
     .nav-links a { padding: 13px 14px; }
     .nav .btn { display: none; }
     .projects { grid-template-columns: 1fr; }
+    .logos { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .logo-card .lc-img { height: 150px; padding: 12px; }
+    .logo-card .lc-name small { display: none; }
     .chip-f.c1 { left: -2%; } .chip-f.c2 { right: -3%; } .chip-f.c3 { left: 2%; }
     .chip-f { padding: 8px 12px; font-size: 12px; }
   }
@@ -303,6 +333,10 @@
 <div id="progress"></div>
 <div class="bg-fixed"><div class="grid"></div><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
 <div id="toasts" aria-live="polite"></div>
+<dialog class="lightbox" id="lightbox" aria-label="Previzualizare logo">
+  <div class="lb-body"><img id="lbImg" src="" alt=""></div>
+  <div class="lb-bar"><span id="lbTitle"></span><button type="button" class="btn btn-ghost btn-sm" id="lbClose">Inchide</button></div>
+</dialog>
 
 <header class="nav">
   <div class="wrap">
@@ -310,6 +344,7 @@
     <nav class="nav-links" id="navLinks">
       <a href="#servicii">Servicii</a>
       <a href="#proiecte">Proiecte</a>
+      <a href="#logo-uri">Logo-uri</a>
       <a href="#proces">Proces</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -379,9 +414,21 @@
       <div class="sec-head">
         <div class="eyebrow rv">PROIECTE</div>
         <h2 class="rv">Cateva lucruri la care <span class="grad-o">am lucrat</span></h2>
-        <p class="rv">Primele doua sunt proiecte reale. Celelalte sunt concepte care arata directia in care pot construi pentru tine.</p>
+        <p class="rv">Panouri de administrare, sisteme de licentiere si site-uri complete pentru servere de Minecraft, toate puse online.</p>
       </div>
       <div class="projects" id="projects"></div>
+    </div>
+  </section>
+
+  <!-- LOGO-URI -->
+  <section id="logo-uri">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow rv">LOGO-URI</div>
+        <h2 class="rv">Identitati vizuale pentru <span class="grad-o">servere de Minecraft</span></h2>
+        <p class="rv">11 logo-uri create pentru comunitati de gaming. Apasa pe unul ca sa-l vezi mare.</p>
+      </div>
+      <div class="logos" id="logos"></div>
     </div>
   </section>
 
@@ -449,20 +496,19 @@
 /* ====== CONFIG — schimba aici datele tale ====== */
 const CONFIG = {
   email: 'contact@exemplu.ro',
-  chat: 'Discord: vladuutz',
+  chat: 'Discord: _vladuu_',
+  chatCopy: '_vladuu_',
 };
 const TECH = ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'Redis', 'Vercel', 'REST API', 'Responsive design', 'SEO', 'Git'];
 const PROJECTS = [
   { t: 'VladuutzPanel — License Manager', live: true, d: 'Panou de administrare pentru licente: chei temporare sau permanente, legare pe domeniu, activare si dezactivare in timp real, plus istoric al ultimei verificari.', tags: ['Node.js', 'Vercel', 'Redis', 'API'], mock: 'panel' },
   { t: 'Licentiere pentru panouri PHP', live: true, d: 'Modul PHP care se adauga intr-o singura linie intr-un panou existent. Verifica periodic serverul si blocheaza accesul cand licenta nu mai e valida.', tags: ['PHP', 'REST API', 'Securitate'], mock: 'code' },
-  { t: 'Magazin online', live: false, d: 'Concept de magazin cu grila de produse, filtre, cos de cumparaturi si pagina de comanda curata, gandit pentru telefon.', tags: ['E-commerce', 'UX', 'Responsive'], mock: 'shop' },
-  { t: 'Site de prezentare', live: false, d: 'Concept de site pentru o firma mica: pagina principala convingatoare, servicii, galerie si formular de contact, cu incarcare rapida.', tags: ['Landing page', 'SEO', 'Design'], mock: 'site' },
+  { t: 'VoidCraft — site pentru server Minecraft', live: true, d: 'Site complet pentru serverul VoidCraft: pagina principala cu identitate violet, logo propriu si buton de conectare, gandit pentru comunitatea de jucatori.', tags: ['Site web', 'Minecraft', 'Design', 'Responsive'], img: 'assets/work/site1.webp', url: 'https://void-craft.vercel.app', host: 'void-craft.vercel.app' },
+  { t: 'LavaMc — site pentru server Minecraft', live: true, d: 'Site pentru serverul LavaMc, cu tema de foc, sectiuni de prezentare, reguli si optiuni de contact, pe un design intunecat cu accente portocalii.', tags: ['Site web', 'Minecraft', 'Design', 'Responsive'], img: 'assets/work/site2.webp', url: 'https://html-starter-rho-eight-25.vercel.app', host: 'html-starter-rho-eight-25.vercel.app' },
 ];
 const MOCKS = {
   panel: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-body"><div class="m-stats"><div class="m-stat"><b>24</b><small>Totale</small></div><div class="m-stat"><b style="color:var(--ok)">19</b><small>Active</small></div><div class="m-stat"><b style="color:var(--orange)">3</b><small>Expirate</small></div><div class="m-stat"><b style="color:#ff5d6c">2</b><small>Oprite</small></div></div><div class="m-row"><span class="mono">CFTE-X7K2-9PQR</span><span class="m-pill g">Activa</span></div><div class="m-row"><span class="mono">CFTE-AAAA-BBBB</span><span class="m-pill g">Permanenta</span></div><div class="m-row"><span class="mono">CFTE-9999-8888</span><span class="m-pill o">Expirata</span></div></div>`,
   code: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-code mono"><span class="c">// index.php</span><br><span class="k">require_once</span> <span class="s">__DIR__ . '/license_check.php'</span>;<br><br><span class="c">// verifica licenta la ~45s</span><br><span class="f">$status</span> = <span class="f">check_license</span>(<span class="s">$key</span>, <span class="s">$domain</span>);<br><span class="k">if</span> (<span class="f">$status</span> !== <span class="s">'valid'</span>) { <span class="f">block_panel</span>(); }</div>`,
-  shop: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-shop"><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div><div class="m-prod"></div></div>`,
-  site: `<div class="mock-bar"><i></i><i></i><i></i></div><div class="m-hero"><div class="l1"></div><div class="l2"></div><div class="l3"></div><div class="l4"></div><div class="b"></div></div>`,
 };
 const $ = (s, r = document) => r.querySelector(s);
 $('#yr').textContent = new Date().getFullYear();
@@ -471,15 +517,37 @@ $('#yr').textContent = new Date().getFullYear();
 $('#marquee').innerHTML = [...TECH, ...TECH].map((t) => `<span>${t}</span>`).join('');
 
 /* proiecte */
-$('#projects').innerHTML = PROJECTS.map((p, i) => `
+$('#projects').innerHTML = PROJECTS.map((p, i) => {
+  const media = p.img
+    ? `<a class="mock shot" href="${p.url}" target="_blank" rel="noopener" aria-label="Deschide ${p.host}"><div class="mock-bar"><i></i><i></i><i></i><span class="url mono">${p.host}</span></div><img src="${p.img}" alt="Captura de ecran: ${p.t}" width="1400" height="715" loading="lazy"></a>`
+    : `<div class="mock">${MOCKS[p.mock]}</div>`;
+  const link = p.url ? `<a class="p-link" href="${p.url}" target="_blank" rel="noopener">Deschide site-ul <svg class="i"><use href="#i-arrow"/></svg></a>` : '';
+  return `
   <article class="spot project rv" style="--d:${(i % 2) * 0.1}s">
-    <div class="mock">${MOCKS[p.mock]}</div>
+    ${media}
     <div class="p-body">
       <div class="p-top"><h3>${p.t}</h3><span class="badge ${p.live ? 'live' : 'concept'}">${p.live ? 'PROIECT REAL' : 'CONCEPT'}</span></div>
       <p>${p.d}</p>
       <div class="tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
+      ${link}
     </div>
-  </article>`).join('');
+  </article>`;
+}).join('');
+
+/* logo-uri */
+const LOGOS = [['VoidCraft','logo1'],['UltraMC','logo2'],['Lyrex','logo3'],['NastiCraft','logo4'],['LuxMC','logo5'],['DripSeal','logo6'],['UltraMC · v2','logo7'],['TopiCraft','logo8'],['FuryMC','logo9'],['FuryMC · v2','logo10'],['ZX','logo11']];
+$('#logos').innerHTML = LOGOS.map(([n, f], i) => `
+  <button type="button" class="spot logo-card rv" style="--d:${(i % 4) * 0.06}s" data-src="assets/work/${f}.webp" data-title="${n}" aria-label="Vezi logo-ul ${n} mare">
+    <div class="lc-img"><img src="assets/work/${f}.webp" alt="Logo ${n}" loading="lazy"></div>
+    <div class="lc-name">${n}<small>Minecraft</small></div>
+  </button>`).join('');
+const dlg = $('#lightbox');
+document.querySelectorAll('.logo-card').forEach((c) => c.addEventListener('click', () => {
+  $('#lbImg').src = c.dataset.src; $('#lbImg').alt = 'Logo ' + c.dataset.title; $('#lbTitle').textContent = c.dataset.title;
+  if (dlg.showModal) dlg.showModal(); else window.open(c.dataset.src, '_blank');
+}));
+$('#lbClose').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 
 /* contact */
 $('#cEmail').textContent = CONFIG.email;
@@ -502,7 +570,7 @@ function copy(text, ok) {
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => toast(ok), fallback);
   else fallback();
 }
-document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy === 'email' ? CONFIG.email : CONFIG.chat, 'Copiat in clipboard.')));
+document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy === 'email' ? CONFIG.email : CONFIG.chatCopy, 'Copiat in clipboard.')));
 
 function buildMsg() {
   const name = $('#fName').value.trim() || '[numele tau]';
@@ -537,7 +605,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('cli
 }));
 
 const bar = $('#progress');
-const secs = ['servicii', 'proiecte', 'proces', 'contact'].map((id) => document.getElementById(id));
+const secs = ['servicii', 'proiecte', 'logo-uri', 'proces', 'contact'].map((id) => document.getElementById(id));
 const navA = [...links.querySelectorAll('a')];
 let lastCur = null;
 function onScroll() {
