@@ -208,9 +208,12 @@
   .p-link:hover .i { transform: translateX(4px); }
 
   /* ---------- logo-uri ---------- */
-  .logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .logo-card { padding: 0; font: inherit; color: inherit; text-align: left; cursor: zoom-in; display: flex; flex-direction: column; width: 100%; }
   .logo-card:hover { transform: translateY(-4px); }
+  .logo-card.extra { display: none; }
+  .logos.open .logo-card.extra { display: flex; }
+  .logos-more { display: flex; justify-content: center; margin-top: 32px; }
   .logo-card .lc-img { height: 230px; width: 100%; display: flex; align-items: center; justify-content: center; padding: 18px; background: radial-gradient(circle at 50% 40%, rgba(31,143,230,.14), transparent 70%), rgba(255,255,255,.015); }
   .logo-card img { max-width: 100%; max-height: 100%; width: auto; height: auto; min-height: 0; object-fit: contain; filter: drop-shadow(0 8px 18px rgba(0,0,0,.45)); transition: transform .4s cubic-bezier(.22,.8,.2,1); }
   .logo-card:hover img { transform: scale(1.07); }
@@ -252,6 +255,14 @@
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(34,224,245,.12); }
   .f-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .f-note { font-size: 12px; color: #5f6e84; margin: 0; }
+  .hp { position: absolute !important; left: -9999px; width: 1px !important; height: 1px !important; opacity: 0; pointer-events: none; }
+  .f-status { margin: 0; min-height: 20px; font-size: 13.5px; font-weight: 600; }
+  .f-status.ok { color: var(--ok); } .f-status.bad { color: #ff7a87; }
+  .btn[disabled] { opacity: .65; cursor: wait; }
+  .foot-r { display: flex; align-items: center; gap: 16px; }
+  .admin-lock { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; color: #4d5b6f; border: 1px solid transparent; transition: color .2s, background .2s, border-color .2s; }
+  .admin-lock:hover, .admin-lock:focus-visible { color: var(--cyan); background: rgba(255,255,255,.05); border-color: var(--border); }
+  .admin-lock .i { width: 17px; height: 17px; }
 
   footer { border-top: 1px solid var(--border); padding-block: 36px calc(36px + 0px); background: rgba(4,7,12,.7); }
   footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; color: var(--muted); font-size: 13.5px; }
@@ -311,7 +322,7 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6M14 4l-4 16"/></symbol>
-    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 7H6"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
     <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol>
     <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M16 7l3 3M13.5 9.5l2 2"/></symbol>
     <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2M12 15l-3-3a22 22 0 0 1 2-4 12.9 12.9 0 0 1 11-6c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2ZM9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></symbol>
@@ -321,6 +332,7 @@
     <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M2 9a14.5 14.5 0 0 1 20 0M12 20h.01"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></symbol>
     <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.7 7L3 21l2-5.5A8 8 0 1 1 21 12Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
@@ -360,7 +372,7 @@
       <div>
         <span class="tag rv">DISPONIBIL PENTRU PROIECTE NOI</span>
         <h1 class="rv" style="--d:.08s">Site-uri si aplicatii web care <span class="grad">cresc afacerea ta</span></h1>
-        <p class="lead rv" style="--d:.16s">Construiesc site-uri de prezentare, magazine online, panouri de administrare si sisteme de licentiere. Rapid, curat si gandit sa arate bine pe orice ecran.</p>
+        <p class="lead rv" style="--d:.16s">Construiesc site-uri de prezentare, logo-uri, panouri de administrare si sisteme de licentiere. Rapid, curat si gandit sa arate bine pe orice ecran.</p>
         <div class="cta-row rv" style="--d:.24s">
           <a href="#contact" class="btn btn-primary">Cere o oferta <svg class="i" style="width:18px;height:18px"><use href="#i-arrow"/></svg></a>
           <a href="#proiecte" class="btn btn-ghost">Vezi proiectele</a>
@@ -399,7 +411,7 @@
       </div>
       <div class="services">
         <article class="spot service rv"><div class="s-ic"><svg class="i"><use href="#i-phone"/></svg></div><h3>Site-uri de prezentare</h3><p>Pagini rapide, moderne si optimizate pentru telefon, cu designul adaptat brandului tau.</p></article>
-        <article class="spot service o rv" style="--d:.07s"><div class="s-ic"><svg class="i"><use href="#i-cart"/></svg></div><h3>Magazine online</h3><p>Catalog de produse, cos de cumparaturi si plati, facute sa transforme vizitatorii in clienti.</p></article>
+        <article class="spot service o rv" style="--d:.07s"><div class="s-ic"><svg class="i"><use href="#i-pen"/></svg></div><h3>Logo-uri si identitate vizuala</h3><p>Logo-uri pentru servere de Minecraft si comunitati de gaming, cu un stil clar si usor de recunoscut.</p></article>
         <article class="spot service rv" style="--d:.14s"><div class="s-ic"><svg class="i"><use href="#i-dash"/></svg></div><h3>Panouri de administrare</h3><p>Dashboard-uri clare pentru gestionat utilizatori, comenzi sau continut, fara bataie de cap.</p></article>
         <article class="spot service o rv"><div class="s-ic"><svg class="i"><use href="#i-key"/></svg></div><h3>Sisteme de licentiere</h3><p>Chei de licenta, activare pe domeniu, expirare si blocare de la distanta, direct din panou.</p></article>
         <article class="spot service rv" style="--d:.07s"><div class="s-ic"><svg class="i"><use href="#i-search"/></svg></div><h3>SEO si viteza</h3><p>Structura corecta, incarcare rapida si bune practici ca sa fii gasit mai usor in Google.</p></article>
@@ -426,9 +438,10 @@
       <div class="sec-head">
         <div class="eyebrow rv">LOGO-URI</div>
         <h2 class="rv">Identitati vizuale pentru <span class="grad-o">servere de Minecraft</span></h2>
-        <p class="rv">11 logo-uri create pentru comunitati de gaming. Apasa pe unul ca sa-l vezi mare.</p>
+        <p class="rv">Cateva dintre cele 11 logo-uri create pentru comunitati de gaming. Apasa pe unul ca sa-l vezi mare.</p>
       </div>
       <div class="logos" id="logos"></div>
+      <div class="logos-more"><button type="button" class="btn btn-ghost" id="logosMore" aria-expanded="false" aria-controls="logos"><span>Vezi mai multe</span> <svg class="i" style="width:17px;height:17px"><use href="#i-arrow"/></svg></button></div>
     </div>
   </section>
 
@@ -455,29 +468,31 @@
         <div class="contact-info">
           <div class="eyebrow">CONTACT</div>
           <h2>Ai un proiect in minte? <span class="grad">Hai sa-l facem.</span></h2>
-          <p>Completeaza cateva detalii si primesti un mesaj gata de trimis. Raspund cat de repede pot cu o idee si un pret.</p>
+          <p>Spune-mi cine esti, ce site ai nevoie si cateva detalii. Raspund cat de repede pot cu o idee si un pret.</p>
           <div class="c-line"><svg class="i"><use href="#i-mail"/></svg><span id="cEmail"></span><button type="button" data-copy="email">Copiaza</button></div>
           <div class="c-line"><svg class="i"><use href="#i-msg"/></svg><span id="cChat"></span><button type="button" data-copy="chat">Copiaza</button></div>
         </div>
-        <form id="contactForm">
+        <form id="contactForm" novalidate>
           <div class="f-row">
-            <label for="fName">Numele tau<input id="fName" type="text" placeholder="Nume" autocomplete="name"></label>
-            <label for="fType">Tip proiect
-              <select id="fType">
-                <option>Site de prezentare</option>
-                <option>Magazin online</option>
-                <option>Panou de administrare</option>
-                <option>Sistem de licentiere</option>
-                <option>Altceva</option>
-              </select>
-            </label>
+            <label for="fName">Numele tau<input id="fName" name="name" type="text" placeholder="Nume" autocomplete="name" maxlength="80" required></label>
+            <label for="fEmail">Emailul tau<input id="fEmail" name="email" type="email" placeholder="email@exemplu.ro" autocomplete="email" maxlength="120" required></label>
           </div>
-          <label for="fMsg">Spune-mi pe scurt ce ai nevoie<textarea id="fMsg" placeholder="Ex: Am un atelier si vreau un site cu galerie si formular de contact."></textarea></label>
+          <label for="fType">Ce site vrei sa fac?
+            <select id="fType" name="type">
+              <option>Site de prezentare</option>
+              <option>Panou de administrare</option>
+              <option>Sistem de licentiere</option>
+              <option>Logo / identitate vizuala</option>
+              <option>Altceva</option>
+            </select>
+          </label>
+          <label for="fMsg">Comentariu<textarea id="fMsg" name="message" placeholder="Ex: Am un server de Minecraft si vreau un site cu pagina de store si reguli." maxlength="2000" required></textarea></label>
+          <input type="text" name="website" id="fWeb" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
           <div class="f-actions">
-            <button class="btn btn-primary" type="submit"><svg class="i" style="width:17px;height:17px"><use href="#i-copy"/></svg> Copiaza mesajul</button>
-            <a class="btn btn-ghost" id="mailLink" href="#">Deschide in email</a>
+            <button class="btn btn-primary" type="submit" id="sendBtn"><svg class="i" style="width:17px;height:17px"><use href="#i-arrow"/></svg> <span>Trimite mesajul</span></button>
           </div>
-          <p class="f-note">Mesajul se pregateste in pagina si il trimiti tu, prin email sau pe chat. Nu se salveaza nimic.</p>
+          <p class="f-status" id="fStatus" role="status" aria-live="polite"></p>
+          <p class="f-note">Mesajul ajunge direct la mine, iar raspund pe emailul pe care il scrii aici.</p>
         </form>
       </div>
     </div>
@@ -487,7 +502,7 @@
 <footer>
   <div class="wrap">
     <a href="#acasa" class="logo-link"><img src="assets/logo-icon.png" alt=""><div><b>Vladuutz<span class="grad">Web</span></b></div></a>
-    <span>© <span id="yr"></span> VladuutzWeb · Web Development &amp; Solutions</span>
+    <div class="foot-r"><span>© <span id="yr"></span> VladuutzWeb · Web Development &amp; Solutions</span><a class="admin-lock" href="/admin" aria-label="Admin" title="Admin"><svg class="i"><use href="#i-lock"/></svg></a></div>
   </div>
 </footer>
 
@@ -537,10 +552,19 @@ $('#projects').innerHTML = PROJECTS.map((p, i) => {
 /* logo-uri */
 const LOGOS = [['VoidCraft','logo1'],['UltraMC','logo2'],['Lyrex','logo3'],['NastiCraft','logo4'],['LuxMC','logo5'],['DripSeal','logo6'],['UltraMC · v2','logo7'],['TopiCraft','logo8'],['FuryMC','logo9'],['FuryMC · v2','logo10'],['ZX','logo11']];
 $('#logos').innerHTML = LOGOS.map(([n, f], i) => `
-  <button type="button" class="spot logo-card rv" style="--d:${(i % 4) * 0.06}s" data-src="assets/work/${f}.webp" data-title="${n}" aria-label="Vezi logo-ul ${n} mare">
+  <button type="button" class="spot logo-card rv${i >= 3 ? ' extra' : ''}" style="--d:${(i % 4) * 0.06}s" data-src="assets/work/${f}.webp" data-title="${n}" aria-label="Vezi logo-ul ${n} mare">
     <div class="lc-img"><img src="assets/work/${f}.webp" alt="Logo ${n}" loading="lazy"></div>
     <div class="lc-name">${n}<small>Minecraft</small></div>
   </button>`).join('');
+const logosEl = $('#logos'), moreBtn = $('#logosMore');
+const label = (open) => { moreBtn.querySelector('span').textContent = open ? 'Arata mai putine' : `Vezi mai multe (${LOGOS.length - 3})`; moreBtn.querySelector('svg').style.transform = open ? 'rotate(-90deg)' : 'rotate(90deg)'; };
+label(false);
+moreBtn.addEventListener('click', () => {
+  const open = logosEl.classList.toggle('open');
+  moreBtn.setAttribute('aria-expanded', open); label(open);
+  logosEl.querySelectorAll('.extra').forEach((c) => c.classList.add('in'));
+  if (!open) $('#logo-uri').scrollIntoView({ behavior: 'smooth' });
+});
 const dlg = $('#lightbox');
 document.querySelectorAll('.logo-card').forEach((c) => c.addEventListener('click', () => {
   $('#lbImg').src = c.dataset.src; $('#lbImg').alt = 'Logo ' + c.dataset.title; $('#lbTitle').textContent = c.dataset.title;
@@ -572,18 +596,27 @@ function copy(text, ok) {
 }
 document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy === 'email' ? CONFIG.email : CONFIG.chatCopy, 'Copiat in clipboard.')));
 
-function buildMsg() {
-  const name = $('#fName').value.trim() || '[numele tau]';
-  const type = $('#fType').value;
-  const msg = $('#fMsg').value.trim() || '[descrie pe scurt ce ai nevoie]';
-  return `Salut, sunt ${name}. Ma intereseaza: ${type}.\n\n${msg}\n\nImi poti spune o idee de pret si un termen?`;
-}
-function syncMail() {
-  $('#mailLink').href = 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent('Proiect nou: ' + $('#fType').value) + '&body=' + encodeURIComponent(buildMsg());
-}
-['fName', 'fType', 'fMsg'].forEach((id) => $('#' + id).addEventListener('input', syncMail));
-syncMail();
-$('#contactForm').addEventListener('submit', (e) => { e.preventDefault(); copy(buildMsg(), 'Mesaj copiat. Il poti trimite acum.'); });
+const form = $('#contactForm'), st = $('#fStatus'), sendBtn = $('#sendBtn');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  st.className = 'f-status'; st.textContent = '';
+  const data = { name: $('#fName').value.trim(), email: $('#fEmail').value.trim(), type: $('#fType').value, message: $('#fMsg').value.trim(), website: $('#fWeb').value };
+  if (data.name.length < 2) { st.className = 'f-status bad'; st.textContent = 'Scrie-ti numele.'; return $('#fName').focus(); }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) { st.className = 'f-status bad'; st.textContent = 'Emailul nu pare valid.'; return $('#fEmail').focus(); }
+  if (data.message.length < 5) { st.className = 'f-status bad'; st.textContent = 'Scrie un comentariu scurt.'; return $('#fMsg').focus(); }
+  sendBtn.disabled = true; sendBtn.querySelector('span').textContent = 'Se trimite...';
+  try {
+    const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'Nu s-a putut trimite.');
+    form.reset();
+    st.className = 'f-status ok'; st.textContent = 'Mesaj trimis! Iti raspund cat de repede pot.';
+    toast('Mesaj trimis. Multumesc!');
+  } catch (err) {
+    st.className = 'f-status bad'; st.textContent = err.message || 'Nu s-a putut trimite. Incearca din nou.';
+  }
+  sendBtn.disabled = false; sendBtn.querySelector('span').textContent = 'Trimite mesajul';
+});
 
 /* meniu mobil */
 const links = $('#navLinks'), burger = $('#burger');

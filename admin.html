@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Admin — VladuutzWeb</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#04070c">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; --bg:#04070c; --card:rgba(16,22,34,.78); --border:rgba(120,160,210,.14); --border-strong:rgba(120,170,230,.3); --fg:#eaf2fb; --muted:#8a98ad; --cyan:#22e0f5; --blue:#1f8fe6; --orange:#ff8a1f; --ok:#2ee6b0; --danger:#ff5d6c; --brand:linear-gradient(135deg,#22e0f5,#1f8fe6); --font:'Inter',-apple-system,'Segoe UI',sans-serif; --font-d:'Montserrat','Inter',sans-serif; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin:0; min-height:100vh; background: radial-gradient(700px 500px at 0% 0%, rgba(31,143,230,.22), transparent 70%), radial-gradient(600px 500px at 100% 100%, rgba(255,138,31,.09), transparent 70%), var(--bg); color:var(--fg); font-family:var(--font); line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .i { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+  button, input { font-family:inherit; }
+  :focus-visible { outline:2px solid var(--cyan); outline-offset:3px; border-radius:8px; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:1px solid var(--border-strong); background:rgba(255,255,255,.05); color:var(--fg); border-radius:12px; padding:10px 16px; font-weight:600; font-size:14px; cursor:pointer; transition:background .2s, transform .15s; }
+  a.btn { text-decoration:none; }
+  .btn:hover { background:rgba(255,255,255,.1); }
+  .btn:active { transform:scale(.97); }
+  .btn-primary { border:0; background:var(--brand); color:#04101a; font-weight:700; box-shadow:0 10px 28px rgba(31,143,230,.35); }
+  .btn-primary:hover { background:var(--brand); filter:brightness(1.08); }
+  .btn-danger { color:var(--danger); border-color:rgba(255,93,108,.35); }
+  .btn-danger:hover { background:rgba(255,93,108,.12); }
+  .btn[disabled] { opacity:.6; cursor:wait; }
+
+  /* login */
+  #login { min-height:100vh; display:grid; place-items:center; padding:20px; }
+  .lcard { width:100%; max-width:380px; padding:34px 30px; border-radius:24px; background:var(--card); border:1px solid var(--border-strong); backdrop-filter:blur(14px); text-align:center; }
+  .lcard .lock { width:58px; height:58px; margin:0 auto 18px; border-radius:18px; display:grid; place-items:center; color:var(--cyan); background:rgba(34,224,245,.1); border:1px solid rgba(34,224,245,.25); }
+  .lcard .lock .i { width:26px; height:26px; }
+  .lcard h1 { font-family:var(--font-d); font-size:22px; margin:0 0 6px; }
+  .lcard p { margin:0 0 22px; color:var(--muted); font-size:14px; }
+  input { width:100%; background:rgba(4,8,14,.75); border:1px solid var(--border); color:var(--fg); padding:13px 15px; border-radius:13px; font-size:15px; margin-bottom:12px; }
+  input:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 0 4px rgba(34,224,245,.12); }
+  .err { min-height:20px; color:var(--danger); font-size:13px; margin:0 0 10px !important; }
+  .lcard .btn { width:100%; padding:13px; }
+  .back { display:inline-block; margin-top:18px; color:var(--muted); font-size:13px; text-decoration:none; }
+  .back:hover { color:var(--fg); }
+
+  /* panou */
+  #panel { display:none; max-width:920px; margin:0 auto; padding:28px 20px 60px; }
+  .top { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:22px; }
+  .top h1 { font-family:var(--font-d); font-weight:800; font-size:26px; margin:0; letter-spacing:-.02em; }
+  .top h1 span { color:var(--muted); font-weight:600; font-size:15px; margin-left:8px; }
+  .top .acts { display:flex; gap:8px; flex-wrap:wrap; }
+  .tabs { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+  .tab { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:99px; padding:7px 15px; font-size:13px; font-weight:600; cursor:pointer; }
+  .tab.on { background:rgba(34,224,245,.1); border-color:rgba(34,224,245,.35); color:var(--cyan); }
+  .list { display:grid; gap:12px; }
+  .msg { padding:20px 22px; border-radius:18px; background:var(--card); border:1px solid var(--border); position:relative; }
+  .msg.new { border-color:rgba(34,224,245,.4); box-shadow:0 0 0 1px rgba(34,224,245,.12), 0 10px 30px rgba(34,224,245,.06); }
+  .msg.new::before { content:''; position:absolute; left:-1px; top:22px; bottom:22px; width:3px; border-radius:3px; background:var(--cyan); }
+  .m-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .m-name { font-family:var(--font-d); font-weight:700; font-size:17px; margin:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .pill { font-family:var(--font); font-size:10.5px; font-weight:700; letter-spacing:.06em; padding:3px 9px; border-radius:99px; background:rgba(34,224,245,.12); color:var(--cyan); }
+  .m-date { color:var(--muted); font-size:12.5px; }
+  .m-meta { display:flex; flex-wrap:wrap; gap:8px 18px; margin:10px 0 12px; font-size:14px; }
+  .m-meta a { color:var(--cyan); text-decoration:none; overflow-wrap:anywhere; }
+  .m-meta a:hover { text-decoration:underline; }
+  .tag { background:rgba(255,138,31,.1); color:var(--orange); border:1px solid rgba(255,138,31,.25); border-radius:8px; padding:2px 10px; font-size:12.5px; font-weight:600; }
+  .m-text { margin:0 0 14px; white-space:pre-wrap; overflow-wrap:anywhere; color:#d3deec; font-size:14.5px; }
+  .m-acts { display:flex; gap:8px; flex-wrap:wrap; }
+  .m-acts .btn { padding:7px 13px; font-size:13px; border-radius:10px; }
+  .empty { text-align:center; padding:60px 20px; color:var(--muted); border:1px dashed var(--border-strong); border-radius:20px; }
+  #toast { position:fixed; bottom:22px; left:50%; transform:translate(-50%,30px); opacity:0; background:#0e1420; border:1px solid var(--border-strong); padding:11px 18px; border-radius:12px; font-size:14px; transition:.3s; pointer-events:none; z-index:10; }
+  #toast.show { opacity:1; transform:translate(-50%,0); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M3 21v-5h5"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+</defs></svg>
+
+<section id="login">
+  <form class="lcard" id="loginForm">
+    <div class="lock"><svg class="i"><use href="#i-lock"/></svg></div>
+    <h1>Zona de admin</h1>
+    <p>Introdu parola ca sa vezi mesajele primite.</p>
+    <input type="password" id="pw" placeholder="Parola" autocomplete="current-password" required autofocus>
+    <p class="err" id="loginErr" role="alert"></p>
+    <button class="btn btn-primary" type="submit" id="loginBtn">Intra</button>
+    <a class="back" href="/">← Inapoi la site</a>
+  </form>
+</section>
+
+<main id="panel">
+  <div class="top">
+    <h1>Mesaje<span id="count"></span></h1>
+    <div class="acts">
+      <button class="btn" id="refresh" type="button"><svg class="i"><use href="#i-refresh"/></svg> Reincarca</button>
+      <a class="btn" href="/">Site</a>
+      <button class="btn" id="logout" type="button"><svg class="i"><use href="#i-out"/></svg> Iesi</button>
+    </div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-f="all" type="button">Toate</button>
+    <button class="tab" data-f="new" type="button">Necitite</button>
+    <button class="tab" data-f="read" type="button">Citite</button>
+  </div>
+  <div class="list" id="list"></div>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+let ALL = [], filter = 'all';
+
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2400); }
+
+async function api(body) {
+  const r = await fetch('/api/admin', body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : undefined);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(j.error || 'Eroare'); e.status = r.status; throw e; }
+  return j;
+}
+
+function showLogin() { $('#panel').style.display = 'none'; $('#login').style.display = 'grid'; $('#pw').focus(); }
+function showPanel() { $('#login').style.display = 'none'; $('#panel').style.display = 'block'; }
+
+async function load(quiet) {
+  try {
+    const { messages } = await api();
+    ALL = messages; showPanel(); render();
+    if (!quiet) toast('Reincarcat');
+  } catch (e) {
+    if (e.status === 401) showLogin(); else { showPanel(); toast(e.message); }
+  }
+}
+
+function fmt(iso) {
+  return new Date(iso).toLocaleString('ro-RO', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function render() {
+  const unread = ALL.filter((m) => !m.read).length;
+  $('#count').textContent = ALL.length ? `${ALL.length} total · ${unread} necitite` : '';
+  const items = ALL.filter((m) => filter === 'all' || (filter === 'new' ? !m.read : m.read));
+  const list = $('#list'); list.textContent = '';
+  if (!items.length) {
+    const d = document.createElement('div'); d.className = 'empty';
+    d.textContent = ALL.length ? 'Niciun mesaj in aceasta categorie.' : 'Inca nu ai primit niciun mesaj.';
+    list.append(d); return;
+  }
+  for (const m of items) {
+    const el = document.createElement('article'); el.className = 'msg' + (m.read ? '' : ' new');
+    el.innerHTML = `
+      <div class="m-head"><h2 class="m-name"><span class="n"></span>${m.read ? '' : '<span class="pill">NOU</span>'}</h2><span class="m-date"></span></div>
+      <div class="m-meta"><a class="em"></a><span class="tag"></span></div>
+      <p class="m-text"></p>
+      <div class="m-acts">
+        <button class="btn" data-a="toggle" type="button"><svg class="i"><use href="#i-check"/></svg> <span></span></button>
+        <a class="btn" data-a="reply"><svg class="i"><use href="#i-out"/></svg> Raspunde</a>
+        <button class="btn btn-danger" data-a="del" type="button"><svg class="i"><use href="#i-trash"/></svg> Sterge</button>
+      </div>`;
+    el.querySelector('.n').textContent = m.name;
+    el.querySelector('.m-date').textContent = fmt(m.createdAt);
+    const em = el.querySelector('.em'); em.textContent = m.email; em.href = 'mailto:' + m.email;
+    el.querySelector('.tag').textContent = m.type;
+    el.querySelector('.m-text').textContent = m.message;
+    el.querySelector('[data-a=toggle] span').textContent = m.read ? 'Marcheaza necitit' : 'Marcheaza citit';
+    el.querySelector('[data-a=reply]').href = 'mailto:' + m.email + '?subject=' + encodeURIComponent('Re: ' + m.type);
+    el.querySelector('[data-a=toggle]').onclick = async () => { try { await api({ action: m.read ? 'unread' : 'read', id: m.id }); m.read = !m.read; render(); } catch (e) { toast(e.message); } };
+    el.querySelector('[data-a=del]').onclick = async () => {
+      if (!confirm('Stergi mesajul de la ' + m.name + '? Nu se poate anula.')) return;
+      try { await api({ action: 'delete', id: m.id }); ALL = ALL.filter((x) => x.id !== m.id); render(); toast('Sters'); } catch (e) { toast(e.message); }
+    };
+    list.append(el);
+  }
+}
+
+$('#loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const b = $('#loginBtn'); b.disabled = true; $('#loginErr').textContent = '';
+  try { await api({ action: 'login', password: $('#pw').value }); $('#pw').value = ''; await load(true); }
+  catch (err) { $('#loginErr').textContent = err.message; }
+  b.disabled = false;
+});
+$('#logout').onclick = async () => { try { await api({ action: 'logout' }); } catch {} ALL = []; showLogin(); };
+$('#refresh').onclick = () => load(false);
+$('#tabs').addEventListener('click', (e) => {
+  const t = e.target.closest('.tab'); if (!t) return;
+  filter = t.dataset.f; document.querySelectorAll('.tab').forEach((x) => x.classList.toggle('on', x === t)); render();
+});
+load(true);
+</script>
+</body>
+</html>
